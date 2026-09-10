@@ -8,13 +8,11 @@ import ThemeToggle from "@/COMPONENTS/ThemeToggle";
 export default function HeaderShell({ logoText = "Jobbportalen", desktopNav, mobileNav }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [lastPath, setLastPath] = useState(pathname);
 
   // Close mobile menu on route change
-  if (lastPath !== pathname) {
-    setLastPath(pathname);
+  useEffect(() => {
     setMobileOpen(false);
-  }
+  }, [pathname]);
 
   useEffect(() => {
     if (mobileOpen) {

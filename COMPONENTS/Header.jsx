@@ -16,7 +16,7 @@ export default function Header({ blok }) {
     ));
 
   return (
-    <div {...storyblokEditable(blok)}>
+    <div {...storyblokEditable(blok)} className="sticky top-0 z-40">
       <HeaderShell
         logoText={blok.logo_text || "Jobbportalen"}
         desktopNav={renderNav("desktop")}

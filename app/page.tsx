@@ -3,7 +3,7 @@ import { getPage } from "@/lib/storyblok";
 import Hero from "@/COMPONENTS/Hero";
 
 export const metadata = {
-  title: "Hem | Jobbportalen",
+  title: "Hem",
   description: "Välkommen till Jobbportalen - din plattform för spännande karriärmöjligheter.",
 };
 

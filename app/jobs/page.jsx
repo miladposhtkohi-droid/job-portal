@@ -5,7 +5,7 @@ import Toolbar from "@/COMPONENTS/Toolbar";
 import JobsList from "@/COMPONENTS/JobsList";
 
 export const metadata = {
-  title: "Lediga tjänster | Jobbportalen",
+  title: "Lediga tjänster",
   description: "Se alla våra aktuella lediga tjänster och sök direkt via portalen.",
 };
 

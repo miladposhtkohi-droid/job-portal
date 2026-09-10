@@ -23,7 +23,7 @@ export async function generateMetadata({ params }) {
 
   const content = job.content || {};
   return {
-    title: content.title ? `${content.title} | Jobbportalen` : "Ledig tjänst | Jobbportalen",
+    title: content.title || "Ledig tjänst",
     description: content.summary || "Läs mer om denna lediga tjänst och ansök idag.",
   };
 }

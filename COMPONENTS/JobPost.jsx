@@ -7,6 +7,11 @@ export default function JobPost({ blok, departmentLabel }) {
 
   const { title, summary, location, department, publishedAt, content } = blok;
   const renderedContent = content ? renderRichText(content) : "";
+  const hasContent =
+    Boolean(renderedContent) &&
+    renderedContent.replace(/<[^>]*>/g, "").trim().length > 0;
+
+  const mailSubject = encodeURIComponent(`Ansökan: ${title || "Ledig tjänst"}`);
 
   const formattedDate = publishedAt
     ? new Date(publishedAt).toLocaleDateString("sv-SE", {
@@ -95,7 +100,7 @@ export default function JobPost({ blok, departmentLabel }) {
       </div>
 
       {/* Description / Richtext content */}
-      {renderedContent && (
+      {hasContent && (
         <div className="portal-card p-6 sm:p-10 mb-8 prose-portal">
           <div dangerouslySetInnerHTML={{ __html: renderedContent }} />
         </div>
@@ -111,7 +116,7 @@ export default function JobPost({ blok, departmentLabel }) {
             Vi ser fram emot att höra från dig. Klicka på knappen nedan för att skicka in din ansökan med CV och personligt brev.
           </p>
           <a
-            href="mailto:jobb@example.com?subject=Ansökan:%20"
+            href={`mailto:jobb@example.com?subject=${mailSubject}`}
             className="btn-accent text-base px-8 py-3"
           >
             Skicka din ansökan

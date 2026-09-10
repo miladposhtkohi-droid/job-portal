@@ -30,14 +30,22 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const config = await getConfig();
+
+  const toArray = (val: unknown): any[] => {
+    if (!val) return [];
+    if (Array.isArray(val)) return val;
+    if (typeof val === "object") return [val];
+    return [];
+  };
+
   const globalBloks: any[] = [
-    ...(config?.content?.body || []),
-    ...(config?.content?.header || []),
-    ...(config?.content?.footer || []),
+    ...toArray(config?.content?.body),
+    ...toArray(config?.content?.header),
+    ...toArray(config?.content?.footer),
   ];
 
-  const headerBlok = globalBloks.find((blok) => blok.component === "header");
-  const footerBlok = globalBloks.find((blok) => blok.component === "footer");
+  const headerBlok = globalBloks.find((blok) => blok?.component === "header");
+  const footerBlok = globalBloks.find((blok) => blok?.component === "footer");
 
   return (
     <html

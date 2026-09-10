@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { storyblokEditable } from "@storyblok/react/rsc";
+import { formatStoryblokLink } from "@/lib/storyblok";
 
 export default function Hero({ blok }) {
   if (!blok) return null;
+
+  const buttonUrl = formatStoryblokLink(blok.button_url, "/jobs");
 
   return (
     <section
@@ -34,7 +37,7 @@ export default function Hero({ blok }) {
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href={blok.button_url || "/jobs"}
+              href={buttonUrl}
               className="btn-accent text-base px-7 py-3"
             >
               {blok.button_text || "Utforska lediga jobb"}

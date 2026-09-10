@@ -18,13 +18,14 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${page.name || "Sida"} | Jobbportalen`,
+    title: page.name || "Sida",
     description: page.content?.meta_description || "Information på Jobbportalen.",
   };
 }
 
-export default async function DynamicPage({ params }) {
+export default async function DynamicPage({ params, searchParams }) {
   const { slug } = await params;
+  const sp = await searchParams;
   const page = await getPage(slug);
 
   if (!page || !page.content) {
@@ -37,7 +38,7 @@ export default async function DynamicPage({ params }) {
     <main className="min-h-screen py-8">
       <StoryblokLiveEditing story={page} />
       {body.map((blok) => (
-        <StoryblokServerComponent blok={blok} key={blok._uid} />
+        <StoryblokServerComponent blok={blok} key={blok._uid} searchParams={sp} />
       ))}
     </main>
   );

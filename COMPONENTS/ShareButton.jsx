@@ -6,10 +6,16 @@ export default function ShareButton() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+    if (typeof window !== "undefined" && navigator?.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText(window.location.href)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2500);
+        })
+        .catch(() => {
+          // Fallback or ignore if user denied clipboard access
+        });
     }
   };
 
