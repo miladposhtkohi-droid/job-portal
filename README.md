@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jobbportalen 💼
 
-## Getting Started
+En modern karriär- och rekryteringsportal byggd med **Next.js 16 (App Router)**, **React 19**, **Tailwind CSS v4** och **Storyblok Headless CMS**.
 
-First, run the development server:
+---
+
+## ⚡ Snabbstart (Quick Start)
+
+För en komplett installationsguide på nya system, se **[SETUP.md](SETUP.md)**.
 
 ```bash
+# 1. Gå till projektmappen
+cd job-portal
+
+# 2. Installera beroenden
+npm install
+
+# 3. Skapa miljövariabler
+cp .env.example .env.local
+# Fyll i din STORYBLOK_DELIVERY_API_TOKEN i .env.local
+
+# 4. Starta utvecklingsservern
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Öppna därefter [http://localhost:3000](http://localhost:3000) i webbläsaren.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌟 Funktioner
 
-## Learn More
+* **Dynamisk Storyblok CMS Integration**:
+  * Visuell live-redigering (Visual Editor) med `@storyblok/react`.
+  * Modulära sidor via blockkomponenter (`Hero`, `Teaser`, `Grid`, `Feature`, `Button`, `TextSection`).
+  * Konfigurerbar global Header och Footer via CMS.
+* **Jobbannonser & Sökfunktion**:
+  * Filtrering på avdelning (kopplat till Storyblok Datasource `job-departments`).
+  * Fritextsökning på titlar och nyckelord.
+  * Dynamiska annonssidor under `/jobs/[slug]` med rika textformat och delningsknapp.
+* **Modern design & UX**:
+  * Mörkt och ljust läge (Dark/Light mode) med lokal sparning i `localStorage`.
+  * Responsiv layout anpassad för mobil, surfplatta och desktop.
+  * Mobil lådmeny (Drawer navigation).
+* **Prestanda & SEO**:
+  * Statisk förgenerering (SSG) för snabb sidladdning.
+  * Optimerad metadata-hierarki för sökmotorer.
+  * On-demand webhook-revalidering via `/api/revalidate`.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Projektstruktur
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+job-portal/
+├── app/                  # Next.js App Router (sidor, layout, API-routes)
+│   ├── [slug]/           # Dynamiska CMS-sidor
+│   ├── api/revalidate/   # Webhook för on-demand cache-revalidering
+│   ├── jobs/             # Jobblistning och söksida
+│   │   └── [slug]/       # Individuell jobbannons
+│   ├── layout.tsx        # Global layout med Header, Footer och tema
+│   ├── not-found.jsx     # Anpassad 404-felsida
+│   └── page.tsx          # Startsida
+├── COMPONENTS/           # React-komponenter & Storyblok-block
+│   ├── Header.jsx & HeaderShell.jsx
+│   ├── Footer.jsx & FooterLink.jsx
+│   ├── JobCard.jsx & JobPost.jsx & JobsList.jsx
+│   ├── Toolbar.jsx & SearchBar.jsx & DepartmentFilter.jsx
+│   ├── Hero.jsx, Teaser.jsx, Grid.jsx, Feature.jsx, Button.jsx
+│   └── ThemeToggle.jsx, ShareButton.jsx
+├── lib/
+│   └── storyblok.js      # Storyblok API-klient, queries och helpers
+├── public/               # Statiska filer
+├── .env.example          # Exempel på miljövariabler
+├── SETUP.md              # Fullständig installationsguide för nya datorer
+└── package.json          # Beroenden och npm-skript
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📜 Licens och kontakt
+Utvecklad som en del av kursen Content Management System (CMS). För frågor om Storyblok-rymden, kontakta projektansvarig.
