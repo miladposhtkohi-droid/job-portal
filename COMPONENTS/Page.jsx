@@ -1,12 +1,14 @@
-import { StoryblokComponent, storyblokEditable } from "@storyblok/react";
+import { StoryblokServerComponent, storyblokEditable } from "@storyblok/react/rsc";
 
-const Page = ({ blok, searchParams, department, q }) => {
+export default function Page({ blok, searchParams, department, q }) {
   if (!blok) return null;
 
+  const body = blok.body || [];
+
   return (
-    <main {...storyblokEditable(blok)} className="min-h-screen">
-      {blok.body?.map((nestedBlok) => (
-        <StoryblokComponent
+    <div {...storyblokEditable(blok)} className="w-full">
+      {body.map((nestedBlok) => (
+        <StoryblokServerComponent
           blok={nestedBlok}
           key={nestedBlok._uid}
           searchParams={searchParams}
@@ -14,8 +16,6 @@ const Page = ({ blok, searchParams, department, q }) => {
           q={q}
         />
       ))}
-    </main>
+    </div>
   );
-};
-
-export default Page;
+}

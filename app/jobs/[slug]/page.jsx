@@ -1,30 +1,52 @@
 import { notFound } from "next/navigation";
-import { getStoryblokApi } from "@/lib/storyblok";
+import { StoryblokLiveEditing } from "@storyblok/react/rsc";
+import { getJob, getJobs, getDatasourceMap } from "@/lib/storyblok";
 import JobPost from "@/COMPONENTS/JobPost";
 
-export default async function JobPage({ params }) {
+export async function generateStaticParams() {
+  const jobs = await getJobs();
+  return jobs.map((story) => ({
+    slug: story.slug,
+  }));
+}
+
+export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const storyblokApi = getStoryblokApi();
+  const job = await getJob(slug);
 
-  let story = null;
+  if (!job) {
+    return {
+      title: "Tjänsten hittades inte",
+      description: "Den sökta jobbannonsen kunde inte hittas.",
+    };
+  }
 
-  try {
-    const response = await storyblokApi.get(`cdn/stories/jobs/${slug}`, {
-      version: "draft",
-    });
-    story = response.data?.story;
-  } catch (error) {
-    console.error(`Fel vid hämtning av jobbet '${slug}':`, error);
+  const content = job.content || {};
+  return {
+    title: content.title ? `${content.title} | Jobbportalen` : "Ledig tjänst | Jobbportalen",
+    description: content.summary || "Läs mer om denna lediga tjänst och ansök idag.",
+  };
+}
+
+export default async function JobDetailPage({ params }) {
+  const { slug } = await params;
+
+  const [job, departmentMap] = await Promise.all([
+    getJob(slug),
+    getDatasourceMap("job-departments"),
+  ]);
+
+  if (!job || !job.content) {
     notFound();
   }
 
-  if (!story || !story.content) {
-    notFound();
-  }
+  const departmentRaw = job.content.department;
+  const departmentLabel = departmentMap.get(departmentRaw) || departmentRaw;
 
   return (
-    <main className="min-h-screen p-4 md:p-8 bg-zinc-50 dark:bg-black">
-      <JobPost blok={story.content} />
+    <main className="min-h-screen">
+      <StoryblokLiveEditing story={job} />
+      <JobPost blok={job.content} departmentLabel={departmentLabel} />
     </main>
   );
 }
